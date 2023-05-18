@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
-const port = process.env.PORT || 3000;
+const cors = require('cors');
+const port = process.env.PORT || 3001;
 
 const dogsRouter = require('./routes/dogs');
 
@@ -12,6 +13,7 @@ require('./config/database');
 
 // middleware
 app.use(express.urlencoded({ extended: true }));
+app.use(cors());
 
 // routes
 app.use('/dogs', dogsRouter);
