@@ -2,6 +2,8 @@
 let { PutObjectCommand } = require("@aws-sdk/client-s3");
 let { s3Client } = require("./libs/sampleClient.js");
 
+require('dotenv').config()
+
 // Set the parameters
 const params = {
   Bucket: "bens-dog-photos-bucket", // The name of the bucket. For example, 'sample-bucket-101'.

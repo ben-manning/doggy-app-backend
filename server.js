@@ -3,10 +3,10 @@ const app = express();
 const cors = require('cors');
 const port = process.env.PORT || 3001;
 
-const dogsRouter = require('./routes/dogs');
-
 // environment variables
 require('dotenv').config()
+
+const dogsRouter = require('./routes/dogs');
 
 // database connection
 require('./config/database');

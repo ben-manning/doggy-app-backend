@@ -1,4 +1,8 @@
-const Dog = require('../models/dog')
+const Dog = require('../models/dog');
+
+let { PutObjectCommand } = require("@aws-sdk/client-s3");
+let { s3Client } = require("../libs/sampleClient");
+
 
 
 const getAllDogs = async (req, res) => {
@@ -12,10 +16,22 @@ const getAllDogs = async (req, res) => {
 
 const createDog = async (req, res) => {
   try {
+    console.log(req.file)
+    const params = {
+      Bucket: "bens-dog-photos-bucket", // The name of the bucket. For example, 'sample-bucket-101'.
+      Key: req.file.originalname, // The name of the object. For example, 'sample_upload.txt'.
+      Body: req.file.buffer, // The content of the object. For example, 'Hello world!".
+      ContentType: 'image/jpeg'
+    };
+
+    const results = await s3Client.send(new PutObjectCommand(params));
+    
+    let dogUrl = `${process.env.S3_BASE_URL}bens-dog-photos-bucket/${req.file.originalname}`
+    req.body.photoUrl = dogUrl
     let newDog = await Dog.create(req.body)
     res.json(newDog);
-  } catch {
-    res.json({ msg: 'There was an error making your dog'});
+  } catch (err) {
+    console.log("Error", err);
   }
 }
 
